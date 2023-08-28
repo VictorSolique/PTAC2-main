@@ -23,6 +23,7 @@ export default function Todo() {
             <form onSubmit={salvar} class="flex align-center">
                 <input type="text" value={atividade} onChange={(e) => setAtiv(e.target.value)} />
                 <button class="btn btn-danger rounded-3 m-2">ADIOCINAR</button>
+                <button class="btn btn-danger rounded-3 m-2">utfufufk</button>
             </form>
             <div>
                 {lista.map((atividade) => <p key={atividade.id}> - {atividade.atividade}</p>)}
