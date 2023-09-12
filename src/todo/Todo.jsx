@@ -120,18 +120,19 @@ export default function Todo() {
                         <div className="card">
                             <div className="card-body">   
                                 <h6 className="border-bottom text-center">Lista de Compra</h6>                                
-                            {lista.map((atividade) => (
-                                <div key={atividade.id} className="d-flex justify-content-between border-bottom mb-3">
-                                    <div className="me-auto pe-2">
-                                        <p className="m-0"> - {atividade.atividade}</p>
-                                        <p className="text-danger d-inline"> --&gt; R$</p>
-                                        <input type="number" min="0" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
+                                {lista.map((atividade) => (
+                                    <div key={atividade.id} className="d-flex justify-content-between border-bottom mb-3">
+                                        <div className="me-auto pe-2">
+                                            <p className="m-0"> - {atividade.atividade}</p>
+                                            <p className="text-danger d-inline"> --&gt; R$</p>
+                                            <input type="number" min="0" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
+                                        </div>
+                                        <button type="button" className="btn-close mx-1 mt-1 " aria-label="Close" onClick={() => remove(atividade.id)}></button> 
                                     </div>
-                                    <button type="button" className="btn-close mx-1 mt-1 " aria-label="Close" onClick={() => remove(atividade.id)}></button> 
-                                </div>
-                            ))}
+                                ))}
                             </div> 
                         </div>
+                        <div></div>
                     </div>
                     <div className="col p-2">    
                         <div className="row">
@@ -152,6 +153,7 @@ export default function Todo() {
                                     </div>
                                 </div>
                             ))}
+                            
                         </div>
                     </div>
                 </div> 
