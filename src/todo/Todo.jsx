@@ -58,14 +58,14 @@ export default function Todo() {
 
     const adionaListaImg = (nome, index) => {
         let inputPreco = document.getElementById("inputPreco " + nome).value;
-            setLista([...lista, {
-                id: index,
-                atividade: nome,
-                preco: Number(inputPreco)
-            }])
-            setId(index+1);
-            console.log(lista);
-    }
+        setLista([...lista, {
+            id: index,
+            atividade: nome,
+            preco: Number(inputPreco)
+        }])
+        setId(index+1);
+        console.log("Adicionou compra com imagem: ", lista, "Código: " + index);
+}
 
     const salvar = (e) => {
         e.preventDefault();
@@ -78,6 +78,7 @@ export default function Todo() {
         setId(id+1);
         setAtiv("");
         setPreco('');
+        console.log("Adicionou compra. Código: " + id);
     }
     function remove(id) {
         const listaAux = [...lista];
@@ -87,11 +88,19 @@ export default function Todo() {
     }
     function removeTudo(e) {
         e.preventDefault();
-        return setLista([]);
+        setLista([]);
+    }
+    let precoTotal = () => {
+        let total = 0;
+        const listaPreco = [...lista];
+        listaPreco.forEach((a) => {
+            total += a.preco;
+        });
+        return total.toFixed(2);
     }
 
     return (
-        <div className="container bg-cinza pt-4">
+        <div className="container-xl bg-cinza pt-4">
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item"><Link to="/">Home</Link></li>
@@ -113,34 +122,38 @@ export default function Todo() {
                     <button className="btn btn-success" type="submit">ADICIONAR</button>
                 </div>
             </form>         
-            <div className="container mt-4">
+            <div className="px-2 mt-4">
                 <div className="row">
                     <div className="col p-2 fonte-phudu">
                     <a onClick={removeTudo} className="under text-danger fs-6" href=""><span className="material-symbols-outlined align-bottom">delete</span>apagar tudo</a>      
                         <div className="card">
-                            <div className="card-body">   
+                            <div className="card-body pb-0 mb-0">   
                                 <h6 className="border-bottom text-center">Lista de Compra</h6>                                
                                 {lista.map((atividade) => (
-                                    <div key={atividade.id} className="d-flex justify-content-between border-bottom mb-3">
+                                    <div className="d-flex justify-content-between border-bottom mb-3">
                                         <div className="me-auto pe-2">
                                             <p className="m-0"> - {atividade.atividade}</p>
                                             <p className="text-danger d-inline"> --&gt; R$</p>
-                                            <input type="number" min="0" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
+                                            <input type="number" min="0" max="1000" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
                                         </div>
                                         <button type="button" className="btn-close mx-1 mt-1 " aria-label="Close" onClick={() => remove(atividade.id)}></button> 
                                     </div>
                                 ))}
                             </div> 
+                            <div className="d-flex justify-content-between container py-2">
+                                <span className="fs-4">Preço Total</span>
+                                <span className="text-success fw-semibold fs-4">R$ {precoTotal()} </span>
+                            </div>
                         </div>
-                        <div></div>
+                        
                     </div>
                     <div className="col p-2">    
                         <div className="row">
                             <h4 className="fw-light pb-0 mb-0">mais populares</h4>
                             
                             {listaImg.map((item) => (
-                                <div className="col-sm-4 mb-2">
-                                    <div className="card">
+                                <div className="col-sm-4 mb-2" key={item.id}>
+                                    <div className="card shadow">
                                         <img src={item.url} className="card-img-top" alt={item.nome} />
                                         <div className="card-body px-0 text-center">
                                             <p className="card-title">{item.nome}</p>
@@ -148,7 +161,7 @@ export default function Todo() {
                                                 <span className="input-group-text border-0" id="basic-addon1">R$</span>
                                                 <input type="number" min={0} className="form-control border-0" placeholder="0,00" defaultValue={item.preco} id={"inputPreco "+ item.nome} />
                                             </div>
-                                            <button type="button" className="btn btn-success rounded-5 btn-sm fs-6" onClick={(e) => e.preventDefault(adionaListaImg(item.nome, Math.random()))}>Adicionar <span className="material-symbols-outlined align-bottom">add_circle</span></button> 
+                                            <button type="button" className="btn btn-success rounded-5 btn-sm fs-6" onClick={(e) => e.preventDefault(adionaListaImg(item.nome, id))}>Adicionar <span className="material-symbols-outlined align-bottom">add_circle</span></button> 
                                         </div>
                                     </div>
                                 </div>
