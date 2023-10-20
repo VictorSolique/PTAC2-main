@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const listaImg = [
@@ -51,7 +52,8 @@ const listaImg = [
 ]
 
 export default function Todo() {
-    const[lista, setLista] = useState([]);
+    const listaLocalStorage = JSON.parse(localStorage.getItem("Lista"));
+    const[lista, setLista] = useState(listaLocalStorage || []);
     const[atividade, setAtiv] = useState(""); 
     const[id, setId] = useState(Math.random());
     const[preco, setPreco] = useState("");
@@ -67,6 +69,7 @@ export default function Todo() {
         console.log("Adicionou compra com imagem: ", lista, "Código: " + index);
 }
 
+    useEffect(() => { localStorage.setItem("Lista", JSON.stringify(lista)) },[lista]);
     const salvar = (e) => {
         e.preventDefault();
         if(atividade === "" || preco === "") return;
