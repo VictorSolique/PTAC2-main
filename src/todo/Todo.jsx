@@ -55,7 +55,7 @@ export default function Todo() {
     const listaLocalStorage = JSON.parse(localStorage.getItem("Lista"));
     const[lista, setLista] = useState(listaLocalStorage || []);
     const[atividade, setAtiv] = useState(""); 
-    const[id, setId] = useState(Math.random());
+    const[id, setId] = useState(listaLocalStorage[localStorage.length-1]?.id + 1 || 1);
     const[preco, setPreco] = useState("");
 
     const adionaListaImg = (nome, index) => {
@@ -140,6 +140,7 @@ export default function Todo() {
                                             <input type="number" min="0" max="1000" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
                                         </div>
                                         <button type="button" className="btn-close mx-1 mt-1 " aria-label="Close" onClick={() => remove(atividade.id)}></button> 
+                                        <button><Link to={`/detalhe/${atividade.id}`}>Detalhes</Link></button>
                                     </div>
                                 ))}
                             </div> 
