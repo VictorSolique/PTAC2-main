@@ -6,6 +6,7 @@ export default function Detalhe() {
     return (
         <div>
             <h1>Alimento n° { id }</h1>
+            <a href="/todo">voltar</a>
         </div>
     )
 }

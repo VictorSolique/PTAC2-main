@@ -55,7 +55,7 @@ export default function Todo() {
     const listaLocalStorage = JSON.parse(localStorage.getItem("Lista"));
     const[lista, setLista] = useState(listaLocalStorage || []);
     const[atividade, setAtiv] = useState(""); 
-    const[id, setId] = useState(listaLocalStorage[localStorage.length-1]?.id + 1 || 1);
+    const[id, setId] = useState(listaLocalStorage[listaLocalStorage.length-1]?.id + 1 || 1);
     const[preco, setPreco] = useState("");
 
     const adionaListaImg = (nome, index) => {
@@ -99,7 +99,20 @@ export default function Todo() {
         listaPreco.forEach((a) => {
             total += a.preco;
         });
-        return total.toFixed(2);
+        return total.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    }
+    const tiraPrecoSticky = () => {
+        let tirarSticky = document.getElementById("tiraSt");
+        let tirarBTN = document.getElementById('btnStick');
+        if(tirarSticky.classList.contains('sticky-bottom')) {
+            tirarSticky.classList.remove('sticky-bottom');
+            tirarBTN.textContent = "lock_open";
+        }
+        else {
+            tirarSticky.classList.add('sticky-bottom');
+            tirarBTN.textContent = "lock";
+        }
+            
     }
 
     return (
@@ -133,19 +146,22 @@ export default function Todo() {
                             <div className="card-body pb-0 mb-0">   
                                 <h6 className="border-bottom text-center">Lista de Compra</h6>                                
                                 {lista.map((atividade) => (
-                                    <div className="d-flex justify-content-between border-bottom mb-3">
+                                    <div className="d-flex justify-content-between border-bottom mb-3" key={atividade.id}>
                                         <div className="me-auto pe-2">
                                             <p className="m-0"> - {atividade.atividade}</p>
-                                            <p className="text-danger d-inline"> --&gt; R$</p>
-                                            <input type="number" min="0" max="1000" className="border-0 text-danger" placeholder="0,00" value={atividade.preco.toFixed(2)} />
+                                            <p className="text-danger mb-0"> --&gt; R$ {atividade.preco.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                                            <a class="text-danger"><Link to={`/detalhe/${atividade.id}`}>Ver mais</Link></a>
                                         </div>
-                                        <button type="button" className="btn-close mx-1 mt-1 " aria-label="Close" onClick={() => remove(atividade.id)}></button> 
-                                        <button><Link to={`/detalhe/${atividade.id}`}>Detalhes</Link></button>
+                                        <button type="button" className="btn-close mx-1 mt-1" aria-label="Close" onClick={() => remove(atividade.id)}></button> 
+                                        
                                     </div>
                                 ))}
                             </div> 
-                            <div className="d-flex justify-content-between container py-2">
-                                <span className="fs-4">Preço Total</span>
+                            <div className="d-flex justify-content-between bg-white border-top rounded-4 sticky-bottom container py-2" id="tiraSt">
+                                <span className="fs-4">
+                                    <a href="/" onClick={(e) => e.preventDefault(tiraPrecoSticky())} class="m-2 material-symbols-outlined link-underline-opacity-0 link-underline-opacity-75-hover link-dark" id="btnStick">lock</a>
+                                    Preço Total
+                                </span>
                                 <span className="text-success fw-semibold fs-4">R$ {precoTotal()} </span>
                             </div>
                         </div>
