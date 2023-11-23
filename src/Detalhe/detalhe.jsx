@@ -1,12 +1,17 @@
 import { useParams } from "react-router-dom"
+import Card from '../Card/card'
 
 export default function Detalhe() {
     const { id } = useParams();
+    const lista = JSON.parse( localStorage.getItem("Lista"));
+    const produto = lista.filter((objeto) => {
+        if(objeto.id == id) return objeto;
+        else return null;
+    })
+
+    console.log(produto[0])
 
     return (
-        <div>
-            <h1>Alimento n° { id }</h1>
-            <a href="/todo">voltar</a>
-        </div>
+            <Card produto={produto[0]} />    
     )
 }
